@@ -43,34 +43,42 @@ app.send = function(message) {
   });
 }; 
 
-app.fetch = function(message) {
+app.fetch = function() {
+  
   $.ajax({
     // This is the url you should use to communicate with the parse API server.
     url: 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages',
     type: 'GET',
+    data: 'order=-createdAt',
     success: function (data) {
       console.log('chatterbox: request successful', data);
+      app.renderMessage(data);
     },
     error: function (data) {
       // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
       console.error('chatterbox: Failed to receive data', data);
     }
+    
   });
+  
 };
 
 app.clearMessages = function() {
   $('#chats').empty();
 };
 
-app.renderMessage = function(message) {
+app.renderMessage = function(fetchedData) {
   //create node, then append the node to #chats
   //add message to array
-  //event.preventDefault();
-  $('#chats').append('<div class='+ message.username + '>' + message.username + ': ' + message.text + '</div>');
    
-  //need to include username and add class to use for selector
-  //append to <div>
-  //app.fetch();
+  console.log(fetchedData)
+  let messages = fetchedData.results;
+  console.log(messages)
+  for(let i = 0; i < messages.length; i++){
+    let message = messages[i];
+    $('#chats').append('<div class='+ message.username + '>' + message.username + ': ' + message.text + '</div>');
+  }  
+  
 };
 
 app.renderRoom = function(roomName) {
@@ -88,13 +96,13 @@ app.handleSubmit = function() {
   
   var messageObj = {};
   messageObj.text = $(".textBox").val();
-  messageObj.username = 'crzyROBOT'
-  messageObj.roomname = 'newROOM'
+  messageObj.username = 'crzyROBOT';
+  messageObj.roomname = 'newROOM';
   
-  //app.send(messageObj);
+  app.send(messageObj);
   
-  app.renderMessage(messageObj)
-  console.log(app.fetch(messageObj))
+  app.fetch();
+ // console.log(app.fetch());
 
   
 //   var message = {
@@ -104,6 +112,18 @@ app.handleSubmit = function() {
 // };
 };
 
+
+/*
+results:
+Array(100)
+0:Object
+createdAt:"2017-12-08T20:55:12.526Z"
+objectId:"hEG6XDGsEE"
+text:"cat was here"
+updatedAt:"2017-12-08T20:55:12.526Z"
+username:"cat"
+__proto__:
+*/
 
 
 
