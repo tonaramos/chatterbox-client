@@ -22,7 +22,7 @@ $(document).ready(function() {
     
     
     $('#refreshButton').on('click', function(){
-      app.fetch()
+      app.fetch();
     });
     
     $( "select" ).change(function() {
@@ -42,20 +42,20 @@ app.roomFilter = function(message){
   if(app.chatroomSelected === 'Show All') { 
     
     //$('#chats').append(`<div class=${message.username}>${message.username}: ${message.text}</div>`);
-    $('#chats').append(app.addToScreen(message))
+    $('#chats').append(app.addToScreen(message));
   }else if(message.roomname === app.chatroomSelected) {
     //$('#chats').append(`<div class=${message.username}>${message.username}: ${message.text}</div>`);
-    $('#chats').append(app.addToScreen(message))
+    $('#chats').append(app.addToScreen(message));
   }
   
 };
 
 app.addToScreen = function(message){
-  var newDiv = $('<div></div>')
+  var newDiv = $('<div></div>');
   newDiv.addClass(`${message.username}`);
-  newDiv.text(`${message.username} : ${message.text}`)
+  newDiv.text(`${message.username} : ${message.text}`);
   return newDiv;
-}
+};
 
 app.send = function(message) {
   $.ajax({
@@ -106,7 +106,7 @@ app.roomlistDropdownUpdate = function(message) {
     app.chatrooms.push(message.roomname);
     $('#roomSelector').append(`<option value=${message.roomname}>${message.roomname}</option>`);
   }
-}
+};
 
 app.validateMessage = function(message){
   let charArray = ['&', '<', '>', '"', "'", '`','append', 'prepend', '@', '$', '%', '(', ')', '=', '+', '{', '}', '[', ']'];
@@ -124,16 +124,15 @@ app.validateMessage = function(message){
   // };
   //$('body').css({'background-color': 'red'})
   return true;
-}
+};
 
 app.renderMessage = function(fetchedData) {
   //create node, then append the node to #chats
   //add message to array
    
-  console.log(fetchedData)
+
   let messages = fetchedData.results;
   
-  console.log(messages)
   for(let i = 0; i < messages.length; i++){
     let message = messages[i];
     
@@ -164,30 +163,10 @@ app.handleSubmit = function() {
   messageObj.roomname = '6th floor';
   
   app.send(messageObj);
-  
-  //app.fetch();
- // console.log(app.fetch());
 
-  
-//   var message = {
-//   username: 'shawndrost',
-//   text: 'trololo',
-//   roomname: '4chan'
-// };
 };
 
 
-/*
-results:
-Array(100)
-0:Object
-createdAt:"2017-12-08T20:55:12.526Z"
-objectId:"hEG6XDGsEE"
-text:"cat was here"
-updatedAt:"2017-12-08T20:55:12.526Z"
-username:"cat"
-__proto__:
-*/
 
 
 
